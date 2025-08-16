@@ -3,6 +3,7 @@ from uuid import uuid4
 from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.responses import JSONResponse
 from file_validators import validate_file_type, validate_file_pages
+from pdf_utils import extract_text_from_pdf
 
 app = FastAPI()
 
@@ -35,10 +36,13 @@ async def upload_pdf(file: UploadFile = File(...)):
 
     validate_file_pages(file_path)
 
+    pdf_text, preview = extract_text_from_pdf(file_path, preview_chars=500)
+
     return JSONResponse(
         {
             "original_filename": original_name,
             "saved_filename": unique_filename,
             "message": "File uploaded successfully",
+            "pdf_text_preview": preview,
         }
     )
