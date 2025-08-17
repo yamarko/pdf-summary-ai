@@ -5,6 +5,7 @@ from fastapi.responses import JSONResponse
 from file_validators import validate_file_type, validate_file_pages
 from pdf_utils import extract_text_from_pdf
 from openai_utils import generate_summary
+from history_utils import save_summary_history, get_summary_history
 
 app = FastAPI()
 
@@ -40,6 +41,7 @@ async def upload_pdf(file: UploadFile = File(...)):
 
     pdf_text, preview = extract_text_from_pdf(file_path, preview_chars=500)
     summary = generate_summary(pdf_text)
+    save_summary_history(original_name, unique_filename, summary)
 
     return JSONResponse(
         {
@@ -50,3 +52,9 @@ async def upload_pdf(file: UploadFile = File(...)):
             "summary": summary,
         }
     )
+
+
+@app.get("/history")
+async def history():
+    data = get_summary_history()
+    return JSONResponse(data)
