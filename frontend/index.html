@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>PDF Summary AI</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+
+<body class="p-4">
+
+  <div class="container">
+    <h1 class="mb-4">PDF Summary AI</h1>
+
+    <form id="pdfForm" class="mb-4">
+      <div class="mb-3">
+        <input type="file" class="form-control" id="pdfFile" accept=".pdf" required>
+      </div>
+      <button type="submit" class="btn btn-primary">Upload & Generate Summary</button>
+    </form>
+
+    <div id="result" class="card mb-4">
+      <div class="card-body">
+        <h5 class="card-title">Summary</h5>
+        <pre id="summaryText" class="bg-light p-2 text-wrap text-break">No summary yet</pre>
+        <h5 class="card-title mt-3">PDF Preview</h5>
+        <pre id="pdfPreview" class="bg-light p-2">No preview yet</pre>
+      </div>
+    </div>
+
+    <div id="history" class="card mb-4">
+      <div class="card-body">
+        <h5 class="card-title">History (last 5 summaries)</h5>
+        <ul id="historyList" class="list-group list-group-flush">
+          <li class="list-group-item text-muted">Loading history...</li>
+        </ul>
+      </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+
+</body>
+
+</html>
