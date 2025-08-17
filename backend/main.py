@@ -4,6 +4,7 @@ from fastapi import FastAPI, UploadFile, File, HTTPException
 from fastapi.responses import JSONResponse
 from file_validators import validate_file_type, validate_file_pages
 from pdf_utils import extract_text_from_pdf
+from openai_utils import generate_summary
 
 app = FastAPI()
 
@@ -28,15 +29,17 @@ async def upload_pdf(file: UploadFile = File(...)):
         while content := await file.read(chunk_size):
             file_size += len(content)
             if file_size > MAX_FILE_SIZE:
-                file_path.unlink(missing_ok=True)
-                raise HTTPException(
-                    status_code=400, detail="PDF file too large (max 50 MB)"
-                )
+                break
             f.write(content)
+
+    if file_size > MAX_FILE_SIZE:
+        file_path.unlink(missing_ok=True)
+        raise HTTPException(status_code=400, detail="PDF file too large (max 50 MB)")
 
     validate_file_pages(file_path)
 
     pdf_text, preview = extract_text_from_pdf(file_path, preview_chars=500)
+    summary = generate_summary(pdf_text)
 
     return JSONResponse(
         {
@@ -44,5 +47,6 @@ async def upload_pdf(file: UploadFile = File(...)):
             "saved_filename": unique_filename,
             "message": "File uploaded successfully",
             "pdf_text_preview": preview,
+            "summary": summary,
         }
     )
