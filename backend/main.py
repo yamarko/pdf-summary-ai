@@ -6,8 +6,10 @@ from file_validators import validate_file_type, validate_file_pages
 from pdf_utils import extract_text_from_pdf
 from openai_utils import generate_summary
 from history_utils import save_summary_history, get_summary_history
+from cors_config import add_cors
 
 app = FastAPI()
+add_cors(app)
 
 UPLOAD_FOLDER = Path(__file__).parent / "uploads"
 UPLOAD_FOLDER.mkdir(exist_ok=True)
