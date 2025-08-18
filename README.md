@@ -32,11 +32,11 @@ frontend/
 ├── scripts.js            # Frontend JavaScript logic
 
 .env                      # Environment variables
-Dockerfile                # Builds the Django app image
+Dockerfile                # Builds the FastAPI app image
 docker-compose.yml        # Defines services
 ```
 
-## Installation
+## Installation (Windows)
 
 ### 1. Clone the repository:
 
@@ -56,27 +56,34 @@ SUMMARY_MAX_TOKENS=200
 
 ### 3. Install dependencies
 
+**Recommended (using virtual environment):**
+
 ```bash
+cd backend
+python -m venv venv
+venv\Scripts\activate
+
 pip install -r backend/requirements.txt
 ```
 
-### Running Locally
+## Running Locally
 
-#### Backend
+### Backend
 
 ```bash
 cd backend
 uvicorn main:app --reload
 ```
 
-#### Frontend
-Open `frontend/index.html` in your browser.
+### Frontend
 
-Or run a simple server:
+Open `frontend/index.html` in your browser or run:
+
 ```bash
 cd frontend
 py -m http.server 5500
 ```
+
 Then open your browser at `http://localhost:5500`.
 
 ## API Endpoints
@@ -120,13 +127,13 @@ Then open your browser at `http://localhost:5500`.
 - `docker-compose.yml` maps local `uploads/` folder for persistence.
 - `.env` provides environment variables for OpenAI API and token limits.
 
-**Run:**
+### Run:
 
 ```bash
 docker-compose up --build
 ```
 
-**Stop:**
+### Stop:
 
 ```bash
 docker-compose down
@@ -138,4 +145,3 @@ docker-compose down
 - Partial summaries are generated for large PDFs and combined into a final summary.
 - History is stored in `history.json` (ignored in Git).
 - CORS is configured to allow frontend JS requests to backend.
-
