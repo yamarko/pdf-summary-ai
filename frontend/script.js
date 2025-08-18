@@ -43,6 +43,15 @@ document.addEventListener("DOMContentLoaded", () => {
         method: "POST",
         body: formData,
       });
+
+      if (!res.ok) {
+        const errorData = await res.json();
+        summaryText.innerText = "No summary yet";
+        pdfPreview.innerText = "No preview yet";
+        alert(`Error: ${errorData.detail}`);
+        return;
+      }
+
       const data = await res.json();
 
       summaryText.innerText = data.summary || "No summary yet";
